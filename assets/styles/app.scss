@@ -1,9 +1,4 @@
-body {
-    background-color: blue;
-}
+@use 'base';
+@use 'reset';
 
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+@use 'layout/header';
