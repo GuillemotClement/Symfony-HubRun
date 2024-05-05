@@ -1,0 +1,29 @@
+.form-container{
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  min-width: 600px;
+  max-width: 1200px;
+  border: 1px solid red;
+  h1{
+    text-align: center;
+  }
+  .form-row{
+    display: flex;
+    flex-flow: column;
+    margin: 1.5rem 0;
+    label{
+      margin: 0.5rem 1rem;
+    }
+    input{
+      margin: 0 1rem;
+      padding: 1rem;
+      border: 0;
+    }
+  }
+  .form-action{
+    margin: 1.5rem 0;
+    display: flex;
+    justify-content: space-around;
+  }
+}

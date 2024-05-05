@@ -1,0 +1,41 @@
+header{
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  box-shadow: var(--shadow);
+  background: var(--primary);
+  .header-logo{
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    color: var(--white);
+    transition: opacity 0.3s;
+    &:hover{
+      opacity: 0.8;
+    }
+    i{
+      margin-right: 1rem;
+      font-size: 5rem;
+    }
+    .header-logo{
+      font-size: 2.5rem;
+      font-weight: 700;
+    }
+  }
+  .header-nav{
+    display: flex;
+    li{
+      margin-right: 1.5rem;
+      a{
+        color: var(--white);
+      }
+    }
+  }
+  .header-action{
+    a{
+      margin-right: 1.5rem;
+    }
+  }
+}

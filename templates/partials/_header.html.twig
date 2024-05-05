@@ -1,10 +1,18 @@
 <header>
-  <ul>
-    <li><a href="{{ path('register')}}">Register</a></li>
-    <li><a href="{{ path('login')}}">Login</a></li>
-    <li><a href="{{ path('logout')}}">Logout</a></li>
+  <a class="header-logo" href={{ path('home') }}>
+    <i class="fa-solid fa-person-running"></i>
+    <p class="header-logo">HubRun</p>
+  </a>
+  <ul class="header-nav">
     <li><a href="{{ path('vma_new')}}">Add VMA</a></li>
-    <li><a href="{{ path('user_show')}}">User</a></li>
+
   </ul>
-  <a href="{{path('home')}}">Accueil</a>
+  <div class="header-action">
+    <a href="{{ path('register') }}" class="btn">Inscription</a>
+    <a href="{{ path('login') }}" class="btn">Connexion</a>
+    <a href="{{ path('logout')}}" class="btn">Déconnexion</a>
+    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+      <a href="{{ path('current_user') }}" class="btn">Profil</a>
+    {% endif %}
+  </div>
 </header>

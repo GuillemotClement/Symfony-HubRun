@@ -25,17 +25,28 @@ class VmaController extends AbstractController
     #[Route('vma/new', name: 'vma_new')]
     public function addVma(Request $request, EntityManagerInterface $em): Response
     {
+        // on recupere l'utilateur
+        $user = $this->getUser();
+
+        // on creer une nouvelle VMA
         $vma = new Vma();
+        // creation du formulaire pour ajout VMA
         $formVma = $this->createForm(VmaType::class, $vma);
         $formVma->handleRequest($request);
 
-        if($formVma->isSubmitted() && $formVma->isValid()){
-            $vma->setCreatedAt(new \DateTimeImmutable());
+        // si formulaire est soumis et valide
+        if($formVma->isSubmitted() && $formVma->isSubmitted()){
+            // on lie user a la nouvelle vma
+            $vma->setUser($user);
+            // on ajoute la date de creation
+            $vma->setCreatedAd(new \DateTimeImmutable());
             $em->persist($vma);
             $em->flush();
 
-            $this->addFlash('success', 'La nouvelle VMA a bien ete ajouter');
-            return $this->redirectToRoute('user_show');
+            // ajout du message flash 
+            $this->addFlash('success', 'Nouvelle VMA ajoutee avec success');
+
+            return $this->redirectToRoute('current_user');
         }
 
         return $this->render('vma/add.html.twig', [

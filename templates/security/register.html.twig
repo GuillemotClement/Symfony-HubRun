@@ -3,9 +3,50 @@
 {% block title %}Register{% endblock %}
 
 {% block body %}
-<div class="content">
-    <h1>Register</h1>
+<div class="form-container">
+    <h1>Inscription</h1>
     {{form_start(form)}}
-    <button>Valider</button>
+    <div class="form-row">
+        {{ form_label(form.email) }}
+        {{ form_widget(form.email) }}
+        {{ form_errors(form.email) }}
+    </div>
+    <div class="form-row">
+        {{ form_label(form.password) }}
+        {{ form_widget(form.password) }}
+        {{ form_errors(form.password) }}
+    </div>
+    <div class="form-row">
+        {{ form_label(form.firstname) }}
+        {{ form_widget(form.firstname) }}
+        {{ form_errors(form.firstname) }}
+    </div>
+    <div class="form-row">
+        {{ form_label(form.lastname) }}
+        {{ form_widget(form.lastname) }}
+        {{ form_errors(form.lastname) }}
+    </div>
+    <div class="form-row">
+        {{ form_label(form.city) }}
+        {{ form_widget(form.city) }}
+        {{ form_errors(form.city) }}
+    </div>
+    <div class="form-row">
+        {{ form_label(form.dateOfBirth) }}
+        {{ form_widget(form.dateOfBirth) }}
+        {{ form_errors(form.dateOfBirth) }}
+    </div>
+    <div class="form-row">
+        {{ form_label(form.picture) }}
+        {{ form_widget(form.picture) }}
+        {{ form_errors(form.picture) }}
+    </div>
+    <div class="form-action">
+        <button type='submit' class="btn btn-form">Valider</button>
+        <a href=" {{path('home') }}" class="btn">Retour</a>
+    </div>
     {{form_end(form)}}
+</div>
 {% endblock %}
+
+

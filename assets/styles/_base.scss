@@ -1,0 +1,13 @@
+body{
+  display: flex;
+  flex-flow: column;
+  background: var(--bg-light);
+}
+.app-content{
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+.content{
+  padding: 2rem;
+}

@@ -1,10 +1,18 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ parent() }}{% endblock %}
-
 {% block body %}
-{{form_start(form)}}
-{{form_rest(form)}}
-<button>Soumettre</button>
-{{form_end(form)}}
+<div class="form-container">
+  <h1>Ajout nouvelle VMA</h1>
+  {{ form_start(form) }}
+  <div class="form-row">
+    {{ form_label(form.value) }}
+    {{ form_widget(form.value) }}
+    {{ form_errors(form.value) }}
+  </div>
+  <div class="form-action">
+        <button type='submit' class="btn btn-form">Valider</button>
+        <a href=" {{path('home') }}" class="btn">Retour</a>
+    </div>
+    {{form_end(form)}}
+</div>
 {% endblock %}

@@ -1,0 +1,24 @@
+footer{
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 2rem;
+  background: var(--primary);
+  color: var(--white);
+  a{
+    color: var(--white);
+    transition: opacity 0.3s;
+    &:hover{
+      opacity: 0.8;
+    }
+  }
+  .footer-social{
+    display: flex;
+    flex-flow: row nowrap;
+    li{
+      margin-right: 1.5rem;
+      
+    }
+  }
+}

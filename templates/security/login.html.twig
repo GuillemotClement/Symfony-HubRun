@@ -1,19 +1,42 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello SecurityController!{% endblock %}
 
 {% block body %}
-<form action="">
-    <div class="form-ctn">
-        <label for="">email</label>
-        <input type="email">
-    </div>
-    <div class="form-ctn">
-        <label for="">password</label>
-        <input type="password">
-    </div>
-    <div class="form-action">
-        <button>Submit</button>
-    </div>
-</form>
+<div class="form-container">
+    <h1>Connexion</h1>
+    <form action="{{ path('login' ) }}" method="post">
+        <div class="form-row">
+            <label class="form-label" for="email">Email</label>
+            <input class="form-input" type="email"  name="_username" id="email">
+        </div>
+        <div class="form-row">
+            <label class="form-label" for="password">Mot de passe</label>
+            <input class="form-input" type="password" id="password" name="_password">
+        </div>
+        <div class="form-row">
+            <label for="remember_me">
+                <input type="checkbox" id="remember_me" name="_remember_me">
+                Se souvenir de moi
+            </label>
+        </div>
+
+        {# Token de securite #}
+        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+        {# Affichage du message d'erreur #}
+        {% if error %}
+            <ul class="forn-error">
+                <li>{{ error.messageKey | trans(error.messageData, 'security') }}</li>
+            </ul>
+        {% endif %}
+        
+        <div class="form-action">
+            <button type="submit" class="btn">Connexion</button>
+        </div>
+        <div class="">
+            <a href="{{ path('register')}}">Creer un compte</a>
+            <a href="">Mot de passe oublie</a>
+        </div>
+    </form>
+</div>
 {% endblock %}

@@ -1,4 +1,12 @@
 @use 'base';
 @use 'reset';
+@use 'variables';
 
 @use 'layout/header';
+@use 'layout/footer';
+@use 'layout/profil';
+
+
+@use 'components/btn';
+@use 'components/form';
+// @use 'components/flash';

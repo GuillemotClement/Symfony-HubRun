@@ -3,8 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\VmaRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: VmaRepository::class)]
@@ -15,38 +14,19 @@ class Vma
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column]
-    private ?\DateTimeImmutable $createdAt = null;
-
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(type: Types::DECIMAL, precision: 4, scale: 2)]
     private ?string $value = null;
 
-    /**
-     * @var Collection<int, User>
-     */
-    #[ORM\OneToMany(targetEntity: User::class, mappedBy: 'vma')]
-    private Collection $user;
+    #[ORM\Column(type: Types::DATE_MUTABLE)]
+    private ?\DateTimeInterface $createdAd = null;
 
-    public function __construct()
-    {
-        $this->user = new ArrayCollection();
-    }
+    #[ORM\ManyToOne(inversedBy: 'vmas')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $user = null;
 
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getCreatedAt(): ?\DateTimeImmutable
-    {
-        return $this->createdAt;
-    }
-
-    public function setCreatedAt(\DateTimeImmutable $createdAt): static
-    {
-        $this->createdAt = $createdAt;
-
-        return $this;
     }
 
     public function getValue(): ?string
@@ -61,32 +41,26 @@ class Vma
         return $this;
     }
 
-    /**
-     * @return Collection<int, User>
-     */
-    public function getUser(): Collection
+    public function getCreatedAd(): ?\DateTimeInterface
     {
-        return $this->user;
+        return $this->createdAd;
     }
 
-    public function addUser(User $user): static
+    public function setCreatedAd(\DateTimeInterface $createdAd): static
     {
-        if (!$this->user->contains($user)) {
-            $this->user->add($user);
-            $user->setVma($this);
-        }
+        $this->createdAd = $createdAd;
 
         return $this;
     }
 
-    public function removeUser(User $user): static
+    public function getUser(): ?User
     {
-        if ($this->user->removeElement($user)) {
-            // set the owning side to null (unless already changed)
-            if ($user->getVma() === $this) {
-                $user->setVma(null);
-            }
-        }
+        return $this->user;
+    }
+
+    public function setUser(?User $user): static
+    {
+        $this->user = $user;
 
         return $this;
     }

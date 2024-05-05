@@ -3,10 +3,13 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
@@ -19,6 +22,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?int $id = null;
 
     #[ORM\Column(length: 180)]
+    #[Assert\Email(
+        message: "Email {{ value }} n'est pas valide"
+    )]
+    #[Assert\NotBlank(
+        message: 'Saisir une adresse mail valide'
+    )]
     private ?string $email = null;
 
     /**
@@ -31,25 +40,73 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @var string The hashed password
      */
     #[ORM\Column]
+    #[Assert\NotBlank(
+        message: 'Saisir un mot de passe'
+    )]
+    // #[Assert\Length(
+    //     min: 10,
+    //     minMessage: 'Mot de passe trop court'
+    // )]
     private ?string $password = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(
+        message: 'Saisir un prenom'
+    )]
+    #[Assert\Length(
+        min: 2,
+        minMessage: 'Prenom trop court',
+        max: 255,
+        maxMessage: 'Prenom trop long'
+    )]
     private ?string $firstname = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(
+        message: 'Saisir un nom'
+    )]
+    #[Assert\Length(
+        min: 2,
+        minMessage: 'Nom trop court',
+        max: 255,
+        maxMessage: 'Nom trop long'
+    )]
     private ?string $lastname = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $dateofbirth = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(
+        message: 'Saisir une ville'
+    )]
+    #[Assert\Length(
+        min: 2,
+        minMessage: 'Nom de ville trop court',
+        max: 255,
+        maxMessage: 'Nom de ville trop long'
+    )]
     private ?string $city = null;
 
-    #[ORM\ManyToOne(inversedBy: 'user')]
-    private ?Vma $vma = null;
-
     #[ORM\Column(length: 255, nullable: true)]
+    #[Assert\NotBlank(
+        message: 'Saisir une url'
+    )]
+    #[Assert\Url(
+        message: 'Saisir une url valide'
+    )]
     private ?string $picture = null;
+
+    /**
+     * @var Collection<int, Vma>
+     */
+    #[ORM\OneToMany(targetEntity: Vma::class, mappedBy: 'user', orphanRemoval: true)]
+    private Collection $vmas;
+
+    public function __construct()
+    {
+        $this->vmas = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -174,18 +231,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getVma(): ?Vma
-    {
-        return $this->vma;
-    }
-
-    public function setVma(?Vma $vma): static
-    {
-        $this->vma = $vma;
-
-        return $this;
-    }
-
     public function getPicture(): ?string
     {
         return $this->picture;
@@ -194,6 +239,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setPicture(?string $picture): static
     {
         $this->picture = $picture;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Vma>
+     */
+    public function getVmas(): Collection
+    {
+        return $this->vmas;
+    }
+
+    public function addVma(Vma $vma): static
+    {
+        if (!$this->vmas->contains($vma)) {
+            $this->vmas->add($vma);
+            $vma->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeVma(Vma $vma): static
+    {
+        if ($this->vmas->removeElement($vma)) {
+            // set the owning side to null (unless already changed)
+            if ($vma->getUser() === $this) {
+                $vma->setUser(null);
+            }
+        }
 
         return $this;
     }
